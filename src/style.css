@@ -1,0 +1,205 @@
+/*tab CSS*/
+.etabs-tabgroup {
+    width: 100%;
+    height: 32px;
+    max-height: 32px;
+    background-color: #ccc;
+    cursor: default;
+    font: caption;
+    font-size: 14px;
+    -webkit-user-select: none;
+    user-select: none;
+    display: inline-block;
+    overflow-x:scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid #2f4f4f;
+}
+
+.etabs-tabgroup::-webkit-scrollbar { 
+    display: none; 
+}
+.etabs-tabs {
+    display:inline;
+    max-height: 22px;
+    white-space: nowrap;
+}
+
+.etabs-tab {
+    display:none;
+    position: relative;
+    color: #333;
+    height: 22px;
+    width:fit-content;
+    max-width: 200px;
+    padding: 6px 8px 4px;
+    border: 1px solid #aaa;
+    border-bottom: none;
+    border-left: none;
+    background: linear-gradient(to bottom, rgba(234,234,234,1) 0%,rgba(204,204,204,1) 100%);
+    font: caption;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background-color: #ccc;
+    padding-right: 30px
+}
+
+/* Dragula */
+.etabs-tab.gu-mirror {
+    padding-bottom: 0;
+}
+
+.etabs-tab:first-child {
+    border-left: none;
+}
+
+.etabs-tab.visible {
+    display: inline-block;
+}
+
+.etabs-tab.active {
+    background: #fff;
+}
+
+.etabs-tab.flash {
+    background: linear-gradient(to bottom, rgba(255,243,170,1) 0%,rgba(255,227,37,1) 100%);
+}
+
+.etabs-buttons {
+    display:inline-block;
+    max-height: 22px;
+}
+
+.etabs-buttons button {
+    float: left;
+    color: #333;
+    background: none;
+    border: none;
+    font-size: 12px;
+    margin-top: -26px;
+    border-radius: 2px;
+    margin-left: 4px;
+    width: 20px;
+    text-align: center;
+    padding: 4px 0;
+}
+
+.etabs-buttons button:hover {
+    color: #eee;
+    background-color: #aaa;
+}
+
+.etabs-tab-badge {
+    position: absolute;
+    right: 0;
+    top: -7px;
+    background: red;
+    border-radius: 100%;
+    text-align: center;
+    font-size: 10px;
+    padding: 0 5px;
+}
+
+.etabs-tab-badge.hidden {
+    display: none;
+}
+
+.etabs-tab-icon {
+    display: inline-block;
+    height: 16px;
+}
+
+.etabs-tab-icon img {
+    max-width: 16px;
+    max-height: 16px;
+}
+
+.etabs-tab-title {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.etabs-tab-buttons {
+    display: inline-block;
+    margin-left: 10px;
+    position: absolute;
+    right: 3%;
+}
+
+.etabs-tab-buttons button {
+    display: inline-block;
+    color: #333;
+    background: none;
+    border: none;
+    width: 20px;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.etabs-tab-buttons button:hover {
+    color: #eee;
+    background-color: #aaa;
+}
+
+.etabs-views {
+    height: calc(100vh - 33px);
+}
+/* toolbar CSS (reload, back, forward, search)*/
+.bar-and-tabs {
+    position:sticky ;
+    top: 0px;
+    width: 100%;
+
+}
+.tool-bar {
+    background-color: #ccc;
+    margin: 0px;
+    border-bottom: 1px #2f4f4f solid;
+}
+
+#form {
+    padding-bottom: 5px;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 5px;
+}
+#form > input {
+    height: 24px;
+    border-radius: 10px;
+    outline: none;
+}
+#form > input[type=button] {
+    width: 36px;
+}
+#form > input:hover {
+    border-radius: 5px;
+    border: 1px solid #0066ff;
+}
+#back {
+    margin-left: 18%;
+}
+#home {
+    max-height: 25px;
+    font-size: 14px;
+}
+/* Searchbar CSS*/
+#searchbar {
+    height: 22px;
+    width: 50%;
+    padding: 0 4px;
+    margin: auto;
+    border: 1px solid black;
+    
+    text-align: left;
+}
+
+/* Prompt CSS (for unresponsive webpage) */ 
+#buttons > button {
+    height: 25px;
+    text-align: center;
+}
+
+#data {
+    font-size: 14px;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../node_modules/dragula/dist/dragula.css">
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body style="margin:0">
+        <div class="bar-and-tabs">
+            <div class="tool-bar">
+                <form id="form">             
+                    <input type="button" id="back" value="←">
+                    <input type="button" id="forward" value="→">
+                    <input type="text" id="searchbar" placeholder="Search...">
+                    <input type="button" id="reload" value="⏎" >
+                    <input type="button" id="home" value="⌂">
+                </form>
+            </div>
+        
+            <div class="etabs-tabgroup">
+                <div class="etabs-tabs"></div>
+                <div class="etabs-buttons"></div>
+            </div>
+            
+        </div>
+        <div class="etabs-views"></div>
+        <!--script for tabs-->
+        <script>
+            let settings = require('./json/settings.json')
+            const TabGroup = require('electron-tabs')
+            const dragula = require('dragula')
+
+            let tabGroup = new TabGroup({
+                ready: function (Group) {
+                    dragula([Group.tabContainer], {
+                        direction: "horizontal"
+                    })
+                    
+                },
+                newTab: {
+                    title: 'New Tab',
+                    src: settings.home || settings.searchEngine,
+                    active: true
+                }
+            });
+
+            tabGroup.addTab({
+                title: 'Home',
+                src: settings.home || settings.searchEngine,
+                visible: true,
+                active: true,
+            })
+        </script>
+
+<!--search script-->
+<script>
+    let { changeTabInfo, search, tabListeners, shortcuts } = require('./functions/funcs.js')
+    let activeTab = tabGroup.getActiveTab() || tabGroup.getTabByPosition(1)
+    let searchbar = document.getElementById('searchbar')
+    let reload = document.getElementById('reload')
+    let back = document.getElementById('back')
+    let forward = document.getElementById('forward')
+    let home = document.getElementById('home')
+
+    // Init tab
+    tabGroup.getTabByPosition(1).on('webview-ready', (tab) => {
+        changeTabInfo(tab, {
+            icon: true,
+            title: true
+        })
+    })
+
+    // Tabs
+    tabGroup.on('tab-added', (tab) => {
+        tab.on('active', (tab) => {
+            console.log('tab is active')
+            activeTab = tab
+            changeTabInfo(tab, {
+                icon: false,
+                title: true
+            })
+            tabListeners(tab)
+        })
+    })
+    tabGroup.on('tab-active', (tab) => {
+        activeTab = tab
+        tab.on('webview-ready', (tab) => {
+            console.log('webview is ready')
+            changeTabInfo(tab, { 
+                icon: true,
+                title: true
+            })
+            tabListeners(tab)
+        })
+    })
+    tabGroup.on('tab-removed', (tab) => {
+        if (tabGroup.getTabs()[0] == undefined) {
+            tabGroup.addTab({
+                title: 'Home',
+                src: settings.home || settings.searchEngine,
+                active: true
+            })
+        }
+    })
+    
+    // Search bar and buttons
+    reload.onclick = function() {
+        activeTab.webview.reload()
+    }
+    back.onclick = function() {
+        if (activeTab.webview.canGoBack()) {
+             activeTab.webview.goBack()
+        } else {
+            return
+        }
+    }
+    forward.onclick = function() {
+        if (activeTab.webview.canGoForward()) {
+             activeTab.webview.goForward()
+        } else {
+            return
+        }
+    }
+    home.onclick = function() {
+        activeTab.webview.loadURL(settings.home || settings.searchEngine)
+    }
+
+    document.getElementById('form').addEventListener("submit", function(e) {
+        e.preventDefault()
+        search(e)
+    }, false)
+
+</script>
+</body>
+</html>
