@@ -3,6 +3,8 @@
  
  ## TODO
  
-- Change buttons to images
-- Load website icons better
-- stop multi-triggering listeners
+- [ ] Change buttons to images
+- [ ] Load website icons better
+- [ ] Stop multi-triggering listeners
+- [ ] Load pages themselves quicker
+- [ ] Change all buttons to images
