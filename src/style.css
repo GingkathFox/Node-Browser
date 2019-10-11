@@ -13,7 +13,6 @@
     overflow-x:scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    border-bottom: 1px solid #2f4f4f;
 }
 
 .etabs-tabgroup::-webkit-scrollbar { 
@@ -34,7 +33,7 @@
     max-width: 200px;
     padding: 6px 8px 4px;
     border: 1px solid #aaa;
-    border-bottom: none;
+    border-top: none;
     border-left: none;
     background: linear-gradient(to bottom, rgba(234,234,234,1) 0%,rgba(204,204,204,1) 100%);
     font: caption;
@@ -60,6 +59,7 @@
 
 .etabs-tab.active {
     background: #fff;
+    border-bottom: none;
 }
 
 .etabs-tab.flash {
@@ -150,22 +150,26 @@
     position:sticky ;
     top: 0px;
     width: 100%;
-
+    margin: 0px;
+    padding: 0px;
 }
 .tool-bar {
     background-color: #ccc;
     margin: 0px;
     border-bottom: 1px #2f4f4f solid;
+    height: 35px;
+    padding-bottom: 0px
 }
 
 #form {
+    height: 25px;
     padding-bottom: 5px;
     padding-left: 1%;
     padding-right: 1%;
     padding-top: 5px;
 }
 #form > input {
-    height: 24px;
+    height: 95%;
     border-radius: 10px;
     outline: none;
 }
