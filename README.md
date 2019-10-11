@@ -1,6 +1,6 @@
 # Electron-Browser
  Customizable browser built on Electron.
- [!screenie](!./images/Screenie.png)
+ ![screenie](./images/Screenie.png)
  ## TODO
  
 - [ ] Change buttons to images
