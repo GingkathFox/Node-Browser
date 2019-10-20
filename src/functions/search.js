@@ -5,11 +5,19 @@ function search(v) {
     let tab = tabGroup.getActiveTab()
     let webview = tab.webview
     let load;
-
+    // http://track.tkbo.com/?mid=138&f=138&domain=soundcould.com
+    // ^ HTTP test url
     if (urlregex.test(url)) {
         load = url
-        if (!url.startsWith(`https://`)) {
+        if (!url.startsWith(`https://`) && !url.startsWith(`http://`)) {
             load = `https://${url}`
+        }
+        if (url.startsWith(`http://`)) {
+            let value = confirm('This website is HTTP, which goes against this browsers security policy. \nIf you want to continue to this site, click "Ok".')
+            if (!value) {
+                alert('Closing the tab.')
+               tab.close() 
+            }          
         }
 
         webview.loadURL(load)

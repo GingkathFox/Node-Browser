@@ -1,0 +1,28 @@
+<html> 
+    <head>
+
+    </head>
+    <body>
+        <p id="historytableelem"></p>
+        <script>
+            let simpleTable = require('simpletable-js')
+            let history = require('../json/user/history.json')
+
+            let table = new simpleTable({
+                rows: 2,
+                cols: Object.keys(history).length,
+                id: 'history-table',
+                elem: 'historytableelem',
+                style: {
+                    collapsedBorder: true,
+                    head: true,
+                    headHeight: '50px'
+                }
+            })
+
+            let rows = table.rows()
+
+            for (let i = 0; i < rows.length; i++)
+        </script>
+    </body>
+</html>

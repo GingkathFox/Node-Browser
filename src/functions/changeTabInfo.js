@@ -1,13 +1,19 @@
 module.exports = changeTabInfo
 
 let getIcon = require('get-website-favicon')
-
+let icons = require('../json/app/icons.json')
+let settings = require('../json/app/settings.json')
 async function changeTabInfo(tab, {
     icon = false,
-    title = false
-    }) {  
-    searchbar.value = tab.webview.getURL()
-
+    title = false,
+    url,
+    }) { 
+        if (url) {
+            searchbar.value = url
+        } else {
+            searchbar.value = tab.webview.getURL()
+        }
+    
     if (title) {
         let newTitle = tab.webview.getTitle()
         tab.setTitle(newTitle)
@@ -18,7 +24,7 @@ async function changeTabInfo(tab, {
         try {
             tab.setIcon(ico.icons[0].src)
         } catch(e) {
-            tab.setIcon('./images/tab.png')
+            tab.setIcon(settings.dark ? icons.dark.tab : icons.light.tab)
             console.error(`Can't find site icon, reverting to default`)
         }
     }

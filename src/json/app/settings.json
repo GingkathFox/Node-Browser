@@ -1,4 +1,5 @@
 {
     "searchEngine": "https://google.com",
-    "home": null
+    "home": null,
+    "dark": false
 }

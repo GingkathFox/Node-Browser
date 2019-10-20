@@ -3,16 +3,18 @@
     <head>
         <link rel="stylesheet" href="../node_modules/dragula/dist/dragula.css">
         <link rel="stylesheet" href="./style.css">
+        <script src="https://kit.fontawesome.com/3a65bbcb07.js" crossorigin="anonymous" integrity="sha384-G8pbzceOfzKPtdwA6GCLQ7UajjqiiRuwxHH3p+77MQNhFWmQGVLWV5PbqVsctufh"></script>
     </head>
     <body style="margin:0">
         <div class="bar-and-tabs">
             <div class="tool-bar">
                 <form id="form">             
-                    <input type="button" id="back" value="←">
-                    <input type="button" id="forward" value="→">
+                    <button id="back"></button> <!--<i class="fas fa-chevron-left"></i>-->
+                    <button id="forward"></button> <!--<i class="fas fa-chevron-right"></i>-->
                     <input type="text" id="searchbar" placeholder="Search...">
-                    <input type="button" id="reload" value="⏎" >
-                    <input type="button" id="home" value="⌂">
+                    <button id="reload"></button><!--<i class="fas fa-redo-alt"></i>-->
+                    <button id="home"></button> <!--<i class="fas fa-home"></i>-->
+                    <button id="history"></button>
                 </form>
             </div>
         
@@ -24,7 +26,7 @@
         <div class="etabs-views"></div>
         <!--script for tabs-->
         <script>
-            let settings = require('./json/settings.json')
+            let settings = require('./json/app/settings.json')
             const TabGroup = require('electron-tabs')
             const dragula = require('dragula')
 
@@ -52,19 +54,30 @@
 
 <!--search script-->
 <script>
-    let { changeTabInfo, search, tabListeners, shortcuts } = require('./functions/funcs.js')
-    let util = require('./json/util.json')
+    // Util functions
+    let { changeTabInfo, search, tabListeners, shortcuts, addHistoryEntry } = require('./functions/funcs.js')
+    // JSON
+    let util = require('./json/app/util.json')
+    let icons = require('./json/app/icons.json')
+    // Modules
     let isOnline = require('is-online')
     let isReachable = require('is-reachable')
     const path = require('path')
     const url = require('url')
-    let activeTab = tabGroup.getActiveTab() || tabGroup.getTabByPosition(1)
+    const fs = require('fs')
+    
+    // HTML Elements
     let searchbar = document.getElementById('searchbar')
-    let reload = document.getElementById('reload')
+
     let back = document.getElementById('back')
     let forward = document.getElementById('forward')
+    let reload = document.getElementById('reload')
     let home = document.getElementById('home')
-    console.log(process.getCPUUsage())
+    let history = document.getElementById('history')
+    let activeTab = tabGroup.getActiveTab() || tabGroup.getTabByPosition(1)
+
+    // Dev stuff
+    process.getCPUUsage()
 
     // Testing internet
     async function isConnected() {
@@ -92,6 +105,25 @@
 
     isConnected()
 
+    // Loading button images
+
+    function loadImages() {
+        if (settings.dark) {
+            back.innerHTML = `<image src=${icons.dark.back}>`
+            forward.innerHTML = `<image src=${icons.dark.forward}>`
+            reload.innerHTML = `<image src=${icons.dark.reload}>`
+            home.innerHTML = `<image src=${icons.dark.home}>`
+            history.innerHTML = `<image src=${icons.dark.history}>`
+        } else {
+            back.innerHTML = `<image src=${icons.light.back}>`
+            forward.innerHTML = `<image src=${icons.light.forward}>`
+            reload.innerHTML = `<image src=${icons.light.reload}>`
+            home.innerHTML = `<image src=${icons.light.home}>`
+            history.innerHTML = `<image src=${icons.light.history}>`
+        }    
+    }
+
+    loadImages()
     // Form
     document.getElementById('form').addEventListener("submit", function(e) {
             e.preventDefault()
@@ -104,58 +136,70 @@
                 icon: true,
                 title: true
             })
+            tabListeners(tab),
+            addHistoryEntry(tab.webview.getURL(), tab.webview.getTitle(), tab)
         })
 
-        // Tabs
-        tabGroup.on('tab-added', (tab) => {
-            tab.on('active', (tab) => {
-                console.log('tab is active')
+    // Tabs
+    tabGroup.on('tab-active', (tab) => {
+        activeTab = tab
+        tab.on('webview-ready', (tab) => {
+            console.log('webview is ready')
+            let url, title
+            if (tab.webview.getURL().endsWith('history.html')) { url = 'Node-Browser/History' }
+            else if (tab.webview.getURL().endsWith('error.html')) { url = 'Node-Browser/Error' }
+            else if (tab.webview.getURL().endsWith('notConnected.html')) { url = 'Node-Browser/Notconnected' }
+            else { url = false; addHistoryEntry(tab.webview.getURL(), title || tab.webview.getTitle(), tab) }
+
+            changeTabInfo(tab, { 
+                icon: true,
+                title: true,
+                url: url
             })
+            tabListeners(tab)
         })
-        tabGroup.on('tab-active', (tab) => {
-            activeTab = tab
-            tab.on('webview-ready', (tab) => {
-                console.log('webview is ready')
-                changeTabInfo(tab, { 
-                    icon: true,
-                    title: true
-                })
-                tabListeners(tab)
+    })
+    tabGroup.on('tab-removed', (tab) => {
+        if (tabGroup.getTabs()[0] == undefined) {
+            let home = tabGroup.addTab({
+                title: 'Home',
+                src: settings.home || settings.searchEngine,
+                active: true
             })
+            changeTabInfo(home)
+            tabListeners(home)
+            activeTab = home
+        }
+    })
+    
+    // Search bar and buttons
+    reload.onclick = function() {
+        activeTab.webview.reload()
+    }
+    back.onclick = function() {
+        if (activeTab.webview.canGoBack() === true) {
+            activeTab.webview.goBack()
+        }
+    }
+    forward.onclick = function() {
+        if (activeTab.webview.canGoForward() === true) {
+            activeTab.webview.goForward()
+        }
+    }
+    home.onclick = function() {
+        activeTab.webview.loadURL(settings.home || settings.searchEngine)
+    }
+    history.onclick = function() {
+        let history = tabGroup.addTab({
+            title: 'History',
+            src: util.history,
+            active: true
         })
-        tabGroup.on('tab-removed', (tab) => {
-            if (tabGroup.getTabs()[0] == undefined) {
-                let home = tabGroup.addTab({
-                    title: 'Home',
-                    src: settings.home || settings.searchEngine,
-                    active: true
-                })
-                changeTabInfo(home)
-                tabListeners(home)
-            }
+        changeTabInfo(history, {
+            url: `Node-Browser/History`
         })
-        
-        // Search bar and buttons
-        reload.onclick = function() {
-            activeTab.webview.reload()
-        }
-        back.onclick = function() {
-            if (activeTab.webview.canGoBack()) {
-                activeTab.webview.goBack()
-            } else {
-                return
-            }
-        }
-        forward.onclick = function() {
-            if (activeTab.webview.canGoForward()) {
-                activeTab.webview.goForward()
-            } else {
-                return
-            }
-        }
-        home.onclick = function() {
-            activeTab.webview.loadURL(settings.home || settings.searchEngine)
-        }
+        tabListeners(history)
+    }
 </script>
 </body>
 </html>

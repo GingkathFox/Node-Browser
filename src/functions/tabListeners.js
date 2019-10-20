@@ -1,5 +1,6 @@
 module.exports = tabListeners
-
+let icons = require('../json/app/icons.json')
+let settings = require('../json/app/settings.json')
 let prompt = require('electron-prompt')
 let changeTabInfo = require('./changeTabInfo')
 let getIcon = require('get-website-favicon')
@@ -8,7 +9,7 @@ function tabListeners(tab) {
 
     // Audio
     webview.addEventListener('media-started-playing', () => {
-        tab.setIcon('./images/play.png')
+        tab.setIcon(settings.dark ? icons.dark.play : icons.light.play)
     })
     webview.addEventListener('media-paused', () => {
         changeTabInfo(tab, {

@@ -167,16 +167,20 @@
     padding-left: 1%;
     padding-right: 1%;
     padding-top: 5px;
+    max-height: 25px;
+    line-height: 25px;
 }
-#form > input {
+#form > input, #form > button {
     height: 95%;
     border-radius: 10px;
     outline: none;
+    vertical-align: middle;
 }
-#form > input[type=button] {
+#form > button {
     width: 36px;
+    height: 26px;
 }
-#form > input:hover {
+#form > input:hover, #form > button:hover {
     border-radius: 5px;
     border: 1px solid #0066ff;
 }
@@ -193,6 +197,7 @@
     width: 50%;
     padding: 0 4px;
     margin: auto;
+    margin-top: 0px;
     border: 1px solid black;
     
     text-align: left;
