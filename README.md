@@ -1,6 +1,13 @@
 # Node-Browser
  Customizable browser built on Electron.
- ![screenie](./images/Screenie.png)
+
+ Light:
+
+ ![Light Mode](./images/Light.png)
+
+ Dark:
+
+ ![Dark Mode](./images/Dark.png)
  ## TODO
  
 - [x] Change buttons to images

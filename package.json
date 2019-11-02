@@ -1,10 +1,10 @@
 {
-  "name": "electron-browser",
+  "name": "node-browser",
   "version": "1.0.0",
   "description": "a customisable browser built with electron.",
   "main": "index.js",
   "scripts": {
-    "test": "electron /Users/gingkathfox/Documents/GitHub/Electron-Browser/node_modules/electron-tabs/demo/app.js",
+    "test": "electron ./node_modules/electron-tabs/demo/app.js",
     "start": "electron ./src/browser.js"
   },
   "author": "",

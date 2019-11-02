@@ -13,7 +13,7 @@
             let isOnline = require('is-online')
             let isReachable = require('is-reachable')
             const path = require('path')
-            const url = require('url')
+            //const url = require('url')
             const fs = require('fs')
         </script>
         <link rel="stylesheet" id="themecss" href="">
@@ -130,6 +130,10 @@
     // Tabs
     tabGroup.on('tab-active', (tab) => {
         activeTab = tab
+        changeTabInfo(tab, { 
+                icon: false,
+                title: false
+            })
         tab.on('webview-ready', (tab) => {
             let url, title
             if (tab.webview.getURL().endsWith('history.html')) { url = 'Node-Browser/History' }
