@@ -4,5 +4,6 @@ module.exports = {
     tabListeners: require('./tabListeners'),
     shortcuts: require('./shortcuts'),
     addHistoryEntry: require('./addHistoryEntry'),
-    settings: require('./settings')
+    settings: require('./settings'),
+    loadTheme: require('./loadTheme')
 }

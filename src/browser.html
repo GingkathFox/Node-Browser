@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script>
+            // Util functions
+            let { changeTabInfo, search, tabListeners, shortcuts, addHistoryEntry, loadTheme } = require('./functions/funcs.js')
+            let currentTheme = require('./themes/default/theme.json')
+            // JSON
+            let util = require('./json/app/util.json')
+            let icons = require('./json/app/icons.json')
+            let settings = require('./json/app/settings.json')
+            // Modules
+            let isOnline = require('is-online')
+            let isReachable = require('is-reachable')
+            const path = require('path')
+            const url = require('url')
+            const fs = require('fs')
+        </script>
+
+        <link rel="stylesheet" id="themecss" href="">
         <link rel="stylesheet" href="../node_modules/dragula/dist/dragula.css">
         <!--<script src="https://kit.fontawesome.com/3a65bbcb07.js" crossorigin="anonymous" integrity="sha384-G8pbzceOfzKPtdwA6GCLQ7UajjqiiRuwxHH3p+77MQNhFWmQGVLWV5PbqVsctufh"></script>-->
+        <script>
+            // Load the theme
+        
+        </script>
     </head>
     <body style="margin:0">
         <div class="bar-and-tabs">
             <div class="tool-bar">
                 <form id="form">             
-                    <button id="back"></button> <!--<i class="fas fa-chevron-left"></i>-->
-                    <button id="forward"></button> <!--<i class="fas fa-chevron-right"></i>-->
+                    <button id="back">Back</button> <!--<i class="fas fa-chevron-left"></i>-->
+                    <button id="forward">Forward</button> <!--<i class="fas fa-chevron-right"></i>-->
                     <input type="text" id="searchbar" placeholder="Search...">
-                    <button id="reload"></button><!--<i class="fas fa-redo-alt"></i>-->
+                    <button id="reload">Reload</button><!--<i class="fas fa-redo-alt"></i>-->
                     <button id="home"></button> <!--<i class="fas fa-home"></i>-->
                     <button id="history"></button>
                 </form>
@@ -25,7 +46,6 @@
         <div class="etabs-views"></div>
         <!--script for tabs-->
         <script>
-            let settings = require('./json/app/settings.json')
             const TabGroup = require('electron-tabs')
             const dragula = require('dragula')
 
@@ -53,17 +73,6 @@
 
 <!--search script-->
 <script>
-    // Util functions
-    let { changeTabInfo, search, tabListeners, shortcuts, addHistoryEntry } = require('./functions/funcs.js')
-    // JSON
-    let util = require('./json/app/util.json')
-    let icons = require('./json/app/icons.json')
-    // Modules
-    let isOnline = require('is-online')
-    let isReachable = require('is-reachable')
-    const path = require('path')
-    const url = require('url')
-    const fs = require('fs')
     
     // HTML Elements
     let searchbar = document.getElementById('searchbar')
@@ -73,13 +82,18 @@
     let home = document.getElementById('home')
     let history = document.getElementById('history')
 
+    // Other
     let activeTab = tabGroup.getActiveTab() || tabGroup.getTabByPosition(1)
 
     // Dev stuff
     process.getCPUUsage()
+    //console.log(process.resourceUsage())
 
     // Loading default theme
-    this.document.head.innerHTML += settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`
+    let loadStyle = require('./functions/loadStyle.js')
+    loadTheme(require('./themes/default/theme.json'))
+    //loadStyle(currentTheme.css, currentTheme.folder)
+    //document.head.innerHTML += settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`
 
     // Testing internet
     async function isConnected() {
@@ -106,23 +120,6 @@
 
     isConnected()
 
-    // Loading default button images
-    function loadDefaultImages() {
-        if (settings.dark) {
-            back.innerHTML = `<image src=${icons.dark.back}>`
-            forward.innerHTML = `<image src=${icons.dark.forward}>`
-            reload.innerHTML = `<image src=${icons.dark.reload}>`
-            home.innerHTML = `<image src=${icons.dark.home}>`
-            history.innerHTML = `<image src=${icons.dark.history}>`
-        } else {
-            back.innerHTML = `<image src=${icons.light.back}>`
-            forward.innerHTML = `<image src=${icons.light.forward}>`
-            reload.innerHTML = `<image src=${icons.light.reload}>`
-            home.innerHTML = `<image src=${icons.light.home}>`
-            history.innerHTML = `<image src=${icons.light.history}>`
-        }    
-    }
-    loadDefaultImages()
     // Form
     document.getElementById('form').addEventListener("submit", function(e) {
             e.preventDefault()
@@ -174,6 +171,8 @@
     
     // Search bar and buttons
     reload.onclick = function() {
+       //
+        loadStyle(currentTheme.css, currentTheme.folder)
         activeTab.webview.reload()
     }
     back.onclick = function() {
@@ -189,18 +188,6 @@
     home.onclick = function() {
         activeTab.webview.loadURL(settings.home || settings.searchEngine)
     }
-   /* test.onclick = function(e) {
-        e.preventDefault()
-        let head = e.view.document.head
-
-        if (head.innerHTML.search('<link rel="stylesheet" href="./dark-style.css">') !== -1 || 
-            head.innerHTML.search('<link rel="stylesheet" href="./style.css">') !== -1) {
-                console.log('found!')
-            head.innerHTML.replace(settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`)
-            return
-        }
-       head.innerHTML += settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`
-    }*/
     history.onclick = function() {
         let history = tabGroup.addTab({
             title: 'History',
