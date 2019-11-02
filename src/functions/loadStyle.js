@@ -5,10 +5,9 @@ function loadStyle(css, folder) {
 
     if (settings.dark) {
         link.setAttribute('href', `./themes/${folder}/${css.dark}`)
-        console.log(`Dark theme loaded!`)
+        console.log(`Dark style loaded!`)
     } else {
         link.setAttribute('href', `./themes/${folder}/${css.light}`)
-        console.log(`Light theme loaded!`)
+        console.log(`Light style loaded!`)
     }
-    console.log(`Style loaded!`)  
 }
