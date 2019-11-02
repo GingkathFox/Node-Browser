@@ -22,7 +22,7 @@ function loadTheme(theme) {
     let head = document.head
 
     // Load the CSS
-    head.innerHTML += loadStyle(css, theme.folder)
+    loadStyle(css, theme.folder)
 
     // Load the icons
     if (settings.dark) {

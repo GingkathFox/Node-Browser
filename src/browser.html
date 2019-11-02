@@ -90,10 +90,7 @@
     //console.log(process.resourceUsage())
 
     // Loading default theme
-    let loadStyle = require('./functions/loadStyle.js')
     loadTheme(require('./themes/default/theme.json'))
-    //loadStyle(currentTheme.css, currentTheme.folder)
-    //document.head.innerHTML += settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`
 
     // Testing internet
     async function isConnected() {
@@ -171,8 +168,7 @@
     
     // Search bar and buttons
     reload.onclick = function() {
-       //
-        loadStyle(currentTheme.css, currentTheme.folder)
+        //loadStyle(currentTheme.css, currentTheme.folder)
         activeTab.webview.reload()
     }
     back.onclick = function() {

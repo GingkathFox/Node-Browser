@@ -10,6 +10,5 @@ function loadStyle(css, folder) {
         link.setAttribute('href', `./themes/${folder}/${css.light}`)
         console.log(`Light theme loaded!`)
     }
-    console.log(`Style loaded!`)
-    
+    console.log(`Style loaded!`)  
 }
