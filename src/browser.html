@@ -16,7 +16,6 @@
             const url = require('url')
             const fs = require('fs')
         </script>
-
         <link rel="stylesheet" id="themecss" href="">
         <link rel="stylesheet" href="../node_modules/dragula/dist/dragula.css">
         <!--<script src="https://kit.fontawesome.com/3a65bbcb07.js" crossorigin="anonymous" integrity="sha384-G8pbzceOfzKPtdwA6GCLQ7UajjqiiRuwxHH3p+77MQNhFWmQGVLWV5PbqVsctufh"></script>-->
@@ -129,7 +128,7 @@
                 icon: true,
                 title: true
             })
-            tabListeners(tab),
+            tabListeners(tab, currentTheme)
             addHistoryEntry(tab.webview.getURL(), tab.webview.getTitle(), tab)
         })
 
@@ -137,7 +136,6 @@
     tabGroup.on('tab-active', (tab) => {
         activeTab = tab
         tab.on('webview-ready', (tab) => {
-            console.log('webview is ready')
             let url, title
             if (tab.webview.getURL().endsWith('history.html')) { url = 'Node-Browser/History' }
             else if (tab.webview.getURL().endsWith('error.html')) { url = 'Node-Browser/Error' }
@@ -149,7 +147,7 @@
                 title: true,
                 url: url
             })
-            tabListeners(tab)
+            tabListeners(tab, currentTheme)
         })
     })
     tabGroup.on('tab-removed', (tab) => {
@@ -160,15 +158,13 @@
                 active: true
             })
             changeTabInfo(home)
-            tabListeners(home)
+            tabListeners(tab, currentTheme)
             activeTab = home
         }
     })
     
-    
     // Search bar and buttons
     reload.onclick = function() {
-        //loadStyle(currentTheme.css, currentTheme.folder)
         activeTab.webview.reload()
     }
     back.onclick = function() {

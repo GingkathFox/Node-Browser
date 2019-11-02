@@ -1,13 +1,13 @@
 module.exports = changeTabInfo
 
 let getIcon = require('get-website-favicon')
-let icons = require('../json/app/icons.json')
 let settings = require('../json/app/settings.json')
 async function changeTabInfo(tab, {
     icon = false,
     title = false,
     url,
     }) { 
+        let path = `./themes/${currentTheme.folder}/`
         if (url) {
             searchbar.value = url
         } else {
@@ -24,7 +24,7 @@ async function changeTabInfo(tab, {
         try {
             tab.setIcon(ico.icons[0].src)
         } catch(e) {
-            tab.setIcon(settings.dark ? icons.dark.tab : icons.light.tab)
+            tab.setIcon(settings.dark ? `${path}${currentTheme.icons.dark.tab}` : `${path}${currentTheme.icons.light.tab}`)
             console.error(`Can't find site icon, reverting to default`)
         }
     }

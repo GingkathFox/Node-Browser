@@ -5,6 +5,7 @@ let prompt = require('electron-prompt')
 let changeTabInfo = require('./changeTabInfo')
 let getIcon = require('get-website-favicon')
 function tabListeners(tab, theme) {
+
     let webview = tab.webview
     let icons = theme.icons
 

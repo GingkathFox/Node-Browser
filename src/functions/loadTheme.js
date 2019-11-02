@@ -38,5 +38,6 @@ function loadTheme(theme) {
         reload.innerHTML = `<image src=themes/${theme.folder}/${icons.light.reload}>`
         home.innerHTML = `<image src=themes/${theme.folder}/${icons.light.home}>`
         history.innerHTML = `<image src=themes/${theme.folder}/${icons.light.history}>`
-    }   
+    }
+    currentTheme = theme
 }
