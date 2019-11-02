@@ -13,7 +13,7 @@ function search(v) {
             load = `https://${url}`
         }
         if (url.startsWith(`http://`)) {
-            let value = confirm('This website is HTTP, which goes against this browsers security policy. \nIf you want to continue to this site, click "Ok".')
+            let value = confirm('This website is HTTP, which goes against this browsers security policy.\nIf you want to continue to this site, click "Ok".')
             if (!value) {
                 alert('Closing the tab.')
                tab.close() 
@@ -29,7 +29,4 @@ function search(v) {
             console.error(e)
         }
     }
-   /* webview.addEventListener('page-title-updated', (title) => {
-        tab.setTitle(title.title)
-    })*/
 }

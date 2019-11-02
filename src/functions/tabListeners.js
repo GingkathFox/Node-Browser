@@ -4,8 +4,9 @@ let settings = require('../json/app/settings.json')
 let prompt = require('electron-prompt')
 let changeTabInfo = require('./changeTabInfo')
 let getIcon = require('get-website-favicon')
-function tabListeners(tab) {
+function tabListeners(tab, theme) {
     let webview = tab.webview
+    let icons = theme.icons
 
     // Audio
     webview.addEventListener('media-started-playing', () => {

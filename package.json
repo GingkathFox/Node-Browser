@@ -19,7 +19,9 @@
     "is-online": "^8.2.0",
     "is-reachable": "^4.0.0",
     "screen-info": "^1.0.1",
-    "simpletable-js": "^1.2.0"
+    "simpletable-js": "^1.2.0",
+    "vex-dialog": "^1.1.0",
+    "vex-js": "^4.1.0"
   },
   "devDependencies": {
     "electron-builder": "^21.2.0",

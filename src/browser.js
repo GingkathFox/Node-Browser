@@ -118,7 +118,7 @@ function createWindow () {
       nodeIntegration: true,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
-      contextIsolation: true,
+      //contextIsolation: true,
       autoplayPolicy: 'document-user-activation-required',
       webSecurity: true,
       webviewTag: true,

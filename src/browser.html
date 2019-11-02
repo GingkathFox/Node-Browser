@@ -2,8 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="../node_modules/dragula/dist/dragula.css">
-        <link rel="stylesheet" href="./style.css">
-        <script src="https://kit.fontawesome.com/3a65bbcb07.js" crossorigin="anonymous" integrity="sha384-G8pbzceOfzKPtdwA6GCLQ7UajjqiiRuwxHH3p+77MQNhFWmQGVLWV5PbqVsctufh"></script>
+        <!--<script src="https://kit.fontawesome.com/3a65bbcb07.js" crossorigin="anonymous" integrity="sha384-G8pbzceOfzKPtdwA6GCLQ7UajjqiiRuwxHH3p+77MQNhFWmQGVLWV5PbqVsctufh"></script>-->
     </head>
     <body style="margin:0">
         <div class="bar-and-tabs">
@@ -68,16 +67,19 @@
     
     // HTML Elements
     let searchbar = document.getElementById('searchbar')
-
     let back = document.getElementById('back')
     let forward = document.getElementById('forward')
     let reload = document.getElementById('reload')
     let home = document.getElementById('home')
     let history = document.getElementById('history')
+
     let activeTab = tabGroup.getActiveTab() || tabGroup.getTabByPosition(1)
 
     // Dev stuff
     process.getCPUUsage()
+
+    // Loading default theme
+    this.document.head.innerHTML += settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`
 
     // Testing internet
     async function isConnected() {
@@ -98,16 +100,14 @@
         else {
             console.log('Client is not online.')
             activeTab.webview.loadURL(util.notConnected)
-            console.log(process.memoryUsage(), process.getCPUUsage())
             return false
         }
     }
 
     isConnected()
 
-    // Loading button images
-
-    function loadImages() {
+    // Loading default button images
+    function loadDefaultImages() {
         if (settings.dark) {
             back.innerHTML = `<image src=${icons.dark.back}>`
             forward.innerHTML = `<image src=${icons.dark.forward}>`
@@ -122,14 +122,13 @@
             history.innerHTML = `<image src=${icons.light.history}>`
         }    
     }
-
-    loadImages()
+    loadDefaultImages()
     // Form
     document.getElementById('form').addEventListener("submit", function(e) {
             e.preventDefault()
             search(e)
         }, false)
-    
+        
     // Init tab
     tabGroup.getTabByPosition(1).on('webview-ready', (tab) => {
             changeTabInfo(tab, {
@@ -172,6 +171,7 @@
         }
     })
     
+    
     // Search bar and buttons
     reload.onclick = function() {
         activeTab.webview.reload()
@@ -189,6 +189,18 @@
     home.onclick = function() {
         activeTab.webview.loadURL(settings.home || settings.searchEngine)
     }
+   /* test.onclick = function(e) {
+        e.preventDefault()
+        let head = e.view.document.head
+
+        if (head.innerHTML.search('<link rel="stylesheet" href="./dark-style.css">') !== -1 || 
+            head.innerHTML.search('<link rel="stylesheet" href="./style.css">') !== -1) {
+                console.log('found!')
+            head.innerHTML.replace(settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`)
+            return
+        }
+       head.innerHTML += settings.dark ? `<link rel="stylesheet" href="./dark-style.css">`: `<link rel="stylesheet" href="./style.css">`
+    }*/
     history.onclick = function() {
         let history = tabGroup.addTab({
             title: 'History',
